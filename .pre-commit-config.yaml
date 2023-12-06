@@ -1,0 +1,64 @@
+repos:
+- hooks:
+  - id: commitizen
+  repo: https://github.com/commitizen-tools/commitizen
+  rev: v3.13.0
+- hooks:
+  - id: pdm-lock-check
+  repo: https://github.com/pdm-project/pdm
+  rev: 2.10.4
+- hooks:
+  - id: check-builtin-literals
+  - id: check-case-conflict
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-shebang-scripts-are-executable
+  - id: check-symlinks
+  - id: check-toml
+  - id: destroyed-symlinks
+  - id: detect-private-key
+  - id: end-of-file-fixer
+  - id: forbid-submodules
+  - args:
+    - --markdown-linebreak-ext=md
+    id: trailing-whitespace
+  repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+- hooks:
+  - id: python-check-blanket-noqa
+  - id: python-check-blanket-type-ignore
+  - id: python-no-eval
+  - id: python-no-log-warn
+  - id: python-use-type-annotations
+  - id: text-unicode-replacement-char
+  repo: https://github.com/pre-commit/pygrep-hooks.git
+  rev: v1.10.0
+- hooks:
+  - args:
+    - .
+    id: mypy
+    language: system
+    pass_filenames: false
+  repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.7.1
+- hooks:
+  - args:
+    - --check
+    id: isort
+  repo: https://github.com/PyCQA/isort
+  rev: 5.12.0
+- hooks:
+  - args:
+    - --check
+    id: black
+  repo: https://github.com/psf/black
+  rev: 23.11.0
+- hooks:
+  - id: flake8
+    language: system
+  repo: https://github.com/PyCQA/flake8
+  rev: 6.1.0
+- hooks:
+  - id: interrogate
+  repo: https://github.com/econchick/interrogate
+  rev: 1.5.0

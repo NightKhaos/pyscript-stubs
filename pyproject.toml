@@ -1,0 +1,168 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "pyscript-stubs"
+version = "2023.11.2rc0"
+requires-python = ">=3.9"
+description = "Stubs for Pyscript; Home Page: https://pyscript.net"
+dependencies = []
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+[project.optional-dependencies]
+build = [
+    "marko~=2.0",
+    "requests~=2.31",
+    "jinja2~=3.1",
+]
+[tool.pdm]
+[tool.pdm.build]
+includes = ["src"]
+package-dir = "src"
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm.scripts.flake8]
+cmd = "flake8"
+help = "Run the flake8 the code"
+site_packages = true
+
+[tool.pdm.scripts.isort]
+cmd = "isort ."
+help = "Run isort against the code"
+site_packages = true
+
+[tool.pdm.scripts.black]
+cmd = "black ."
+help = "Run black against the code"
+site_packages = true
+
+[tool.pdm.scripts.mypy]
+cmd = "mypy ."
+help = "Run mypy against the code"
+site_packages = true
+
+[tool.pdm.scripts.lint]
+cmd = "pre-commit run --all-files"
+help = "Check code style against linters using pre-commit"
+site_packages = true
+
+[tool.pdm.scripts.format]
+composite = [
+    "isort",
+    "black",
+]
+help = "Format the code using Black and iSort"
+
+[tool.pdm.scripts.gen_types]
+cmd = "python build_scripts/build_stubs.py"
+site_packages = true
+
+
+[tool.pdm.scripts.pre_lint]
+composite = [
+    "gen_types"
+]
+help = "Operations to perform before linting the package"
+
+[tool.pdm.scripts.pre_build]
+composite = [
+    "gen_types"
+]
+help = "Operations to perform before building the package"
+
+[tool.pdm.scripts.clean]
+cmd = """
+rm -fdr build/*
+"""
+help = "Clean up the build environment"
+
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "black~=23.10",
+    "Flake8-pyproject~=1.2",
+    "flake8~=6.1",
+    "isort~=5.12",
+    "mypy~=1.6",
+    "pre-commit~=3.5",
+    "interrogate~=1.5",
+    "flake8-docstrings~=1.7",
+    "flake8-rst-docstrings~=0.3",
+    "types-requests~=2.31",
+]
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+
+
+[tool.flake8]
+ignore = [
+    "E123",
+    "E203",
+    "W503",
+    "D200",
+    "D107",
+]
+exclude = [
+    "__pypackages__",
+    ".venv",
+]
+max_line_length = 120
+per-file-ignores = [
+    "__init__.py:F401, F403",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+extend_skip_glob = [
+    ".venv/*",
+    "__pypackages__/*",
+]
+src_paths = [
+    "src"
+]
+
+[tool.black]
+line-length = 120
+force-exclude = "build_scripts/templates/event_types.pyi"
+
+[tool.interrogate]
+ignore-init-method = false
+ignore-init-module = false
+ignore-magic = false
+ignore-property-decorators = false
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = false
+ignore_setters = false
+fail-under = 95
+verbose = 2
+quiet = false
+color = true
+omit-covered-files = false
+exclude = [
+    "__pypackages__",
+    ".venv"
+]
+
+[tool.mypy]
+python_version = "3.9"
+explicit_package_bases = true
+check_untyped_defs = true
+warn_unused_configs = true
+show_error_codes = true
+color_output = true
+pretty = true
+mypy_path = "src"
+exclude = [
+    '^__pypackages__/',
+    '^.venv/',
+    '^build_scripts/templates/'
+]
